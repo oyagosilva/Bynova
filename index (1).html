@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bynova Soluções em Tecnologia — Tecnologia completa para o seu negócio.</title>
+<meta name="description" content="Construímos o seu projeto digital completo: site, banco de dados, infraestrutura em nuvem e servidor, com um único time do início ao suporte.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0B1220',
+          ink2: '#111A2C',
+          ink3: '#16213A',
+          line: '#28344E',
+          blueprint: '#4FA8D8',
+          blueprintDim: '#2E6E93',
+          signal: '#FF6B35',
+          paper: '#F5F3EC',
+          steel: '#8B96A8',
+        },
+        fontFamily: {
+          display: ['"Space Grotesk"', 'sans-serif'],
+          body: ['Inter', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'monospace'],
+        },
+      }
+    }
+  }
+</script>
+
+<style>
+  :root{
+    --ink:#0B1220; --ink2:#111A2C; --ink3:#16213A;
+    --line:#28344E; --blueprint:#4FA8D8; --blueprintDim:#2E6E93;
+    --signal:#FF6B35; --paper:#F5F3EC; --steel:#8B96A8;
+  }
+  html{scroll-behavior:smooth;}
+  body{
+    background-color: var(--ink);
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    background-position: -1px -1px;
+  }
+  @media (max-width: 640px){
+    body{ background-size: 34px 34px; }
+  }
+  .no-grid{ background-image:none; }
+
+  /* Blueprint corner marks */
+  .bp-corners{ position:relative; }
+  .bp-corners::before, .bp-corners::after{
+    content:""; position:absolute; width:14px; height:14px; pointer-events:none;
+  }
+  .bp-corners::before{ top:-1px; left:-1px; border-top:1.5px solid var(--blueprint); border-left:1.5px solid var(--blueprint); }
+  .bp-corners::after{ bottom:-1px; right:-1px; border-bottom:1.5px solid var(--blueprint); border-right:1.5px solid var(--blueprint); }
+
+  .sheet-code{
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0.08em;
+  }
+
+  .dash-line{
+    background-image: linear-gradient(90deg, var(--line) 60%, transparent 40%);
+    background-size: 10px 1px;
+    background-repeat: repeat-x;
+  }
+
+  .reveal{ opacity:0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.is-visible{ opacity:1; transform:none; }
+
+  .glow-text{ text-shadow: 0 0 30px rgba(79,168,216,0.35); }
+
+  .btn-signal{
+    background: var(--signal);
+    box-shadow: 4px 4px 0 0 var(--paper);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-signal:hover{ transform: translate(-2px,-2px); box-shadow: 6px 6px 0 0 var(--paper); }
+  .btn-signal:active{ transform: translate(0,0); box-shadow: 2px 2px 0 0 var(--paper); }
+
+  .btn-outline{
+    border:1.5px solid var(--blueprint);
+    transition: background-color .2s ease, color .2s ease;
+  }
+  .btn-outline:hover{ background: var(--blueprint); color: var(--ink); }
+
+  .card-service{
+    background: var(--ink2);
+    border: 1px solid var(--line);
+    transition: border-color .2s ease, transform .2s ease, background-color .2s ease;
+  }
+  .card-service:hover{ border-color: var(--blueprint); transform: translateY(-4px); background: var(--ink3); }
+
+  .plan-card{ border:1px solid var(--line); background:var(--ink2); }
+  .plan-featured{ border:1.5px solid var(--signal); background: var(--ink3); }
+
+  .chip{
+    font-family:'JetBrains Mono', monospace;
+    border:1px solid var(--line);
+    color: var(--steel);
+    transition: border-color .2s ease, color .2s ease;
+  }
+  .chip:hover{ border-color: var(--blueprint); color: var(--blueprint); }
+
+  .faq-item[open] summary .chevron{ transform: rotate(45deg); }
+  summary::-webkit-details-marker{ display:none; }
+  summary{ cursor:pointer; }
+
+  .mono-label{ font-family:'JetBrains Mono', monospace; letter-spacing:0.14em; }
+
+  ::selection{ background: var(--signal); color: var(--ink); }
+
+  input:focus, textarea:focus{ outline: none; border-color: var(--blueprint); box-shadow: 0 0 0 3px rgba(79,168,216,0.15); }
+
+  .nav-blur{ backdrop-filter: blur(10px); background: rgba(11,18,32,0.85); }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .reveal{ transition:none; opacity:1; transform:none; }
+    .btn-signal, .btn-outline, .card-service{ transition:none; }
+  }
+</style>
+</head>
+
+<body class="font-body text-paper antialiased">
+
+<!-- ============ NAV ============ -->
+<header class="fixed top-0 inset-x-0 z-50 nav-blur border-b border-line">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+    <a href="#topo" class="flex items-center gap-2.5 group">
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="17" width="24" height="7" stroke="#4FA8D8" stroke-width="1.5"/>
+        <rect x="4" y="11" width="18" height="6" stroke="#4FA8D8" stroke-width="1.5"/>
+        <rect x="7" y="1" width="12" height="10" stroke="#FF6B35" stroke-width="1.5"/>
+      </svg>
+      <span class="font-display font-semibold text-lg tracking-tight text-paper">BYNOVA<span class="text-blueprint">.</span></span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-8 mono-label text-[12px] uppercase text-steel">
+      <a href="#servicos" class="hover:text-blueprint transition-colors">Serviços</a>
+      <a href="#processo" class="hover:text-blueprint transition-colors">Processo</a>
+      <a href="#stack" class="hover:text-blueprint transition-colors">Stack</a>
+      <a href="#planos" class="hover:text-blueprint transition-colors">Planos</a>
+      <a href="#faq" class="hover:text-blueprint transition-colors">FAQ</a>
+    </nav>
+
+    <a href="#contato" class="hidden md:inline-block btn-signal text-ink font-display font-semibold text-sm px-5 py-2.5">
+      Solicitar orçamento
+    </a>
+
+    <button id="menuBtn" aria-label="Abrir menu" class="md:hidden text-paper w-9 h-9 flex flex-col items-center justify-center gap-1.5">
+      <span class="block w-6 h-[1.5px] bg-paper"></span>
+      <span class="block w-6 h-[1.5px] bg-paper"></span>
+    </button>
+  </div>
+
+  <div id="mobileMenu" class="hidden md:hidden border-t border-line bg-ink px-5 py-5 flex flex-col gap-4 mono-label text-sm uppercase">
+    <a href="#servicos" class="text-steel hover:text-blueprint">Serviços</a>
+    <a href="#processo" class="text-steel hover:text-blueprint">Processo</a>
+    <a href="#stack" class="text-steel hover:text-blueprint">Stack</a>
+    <a href="#planos" class="text-steel hover:text-blueprint">Planos</a>
+    <a href="#faq" class="text-steel hover:text-blueprint">FAQ</a>
+    <a href="#contato" class="btn-signal text-ink text-center font-display font-semibold px-5 py-2.5 mt-1">Solicitar orçamento</a>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section id="topo" class="relative pt-32 pb-20 md:pt-40 md:pb-28 px-5 sm:px-8 overflow-hidden">
+  <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-14 items-center">
+    <div class="reveal">
+      <p class="mono-label text-[11px] sm:text-xs text-blueprint uppercase mb-6">
+        Idéia inicial · Site · Infraestrutura · Suporte
+      </p>
+      <h1 class="font-display font-semibold text-[2.5rem] leading-[1.05] sm:text-6xl text-paper glow-text">
+        Da fundação<br>ao telhado.
+      </h1>
+      <p class="mt-5 text-steel text-base sm:text-lg max-w-md">
+        Não somente um site bonito. Entregamos o projeto inteiro de pé: front-end, back-end, banco de dados, nuvem, servidor e suporte — construídos e mantidos pelo mesmo time.
+      </p>
+
+      <div class="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
+        <a href="#contato" class="btn-signal text-ink font-display font-semibold px-6 py-3.5 text-center">
+          Solicitar orçamento
+        </a>
+        <a href="#processo" class="btn-outline text-paper font-display font-semibold px-6 py-3.5 text-center">
+          Ver como funciona
+        </a>
+      </div>
+
+      <div class="mt-12 grid grid-cols-3 gap-4 max-w-md border-t border-line pt-6">
+        <div>
+          <p class="font-display font-semibold text-2xl sm:text-3xl text-blueprint"><span data-count="47">0</span>+</p>
+          <p class="mono-label text-[10px] text-steel uppercase mt-1">Projetos no ar</p>
+        </div>
+        <div>
+          <p class="font-display font-semibold text-2xl sm:text-3xl text-blueprint"><span data-count="99">0</span>.9%</p>
+          <p class="mono-label text-[10px] text-steel uppercase mt-1">Uptime médio</p>
+        </div>
+        <div>
+          <p class="font-display font-semibold text-2xl sm:text-3xl text-blueprint">&lt;<span data-count="1">0</span>h</p>
+          <p class="mono-label text-[10px] text-steel uppercase mt-1">Resposta suporte</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Signature: cross-section stack diagram -->
+    <div class="reveal bp-corners border border-line p-5 sm:p-8 bg-ink2/60">
+      <p class="mono-label text-[10px] text-steel uppercase mb-4">PL-00 — Corte esquemático do projeto</p>
+      <svg viewBox="0 0 520 470" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+        <!-- flag / top -->
+        <line x1="130" y1="18" x2="130" y2="60" stroke="#FF6B35" stroke-width="1.5"/>
+        <path d="M130 18 L185 30 L130 42 Z" fill="#FF6B35"/>
+        <text x="195" y="34" fill="#F5F3EC" font-family="JetBrains Mono, monospace" font-size="11">Seu negócio no ar</text>
+
+        <!-- band 5: frontend -->
+        <rect x="40" y="60" width="340" height="62" fill="#16213A" stroke="#4FA8D8" stroke-width="1.5"/>
+        <text x="58" y="86" fill="#4FA8D8" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="13">FRONT-END / SITE</text>
+        <text x="58" y="105" fill="#8B96A8" font-family="JetBrains Mono, monospace" font-size="10">Design responsivo · JavaScript / TypeScript</text>
+
+        <!-- band 4: backend -->
+        <rect x="40" y="122" width="340" height="62" fill="#111A2C" stroke="#28344E" stroke-width="1.5"/>
+        <text x="58" y="148" fill="#F5F3EC" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="13">BACK-END / API</text>
+        <text x="58" y="167" fill="#8B96A8" font-family="JetBrains Mono, monospace" font-size="10">Node.js · Autenticação · Integrações</text>
+
+        <!-- band 3: database -->
+        <rect x="40" y="184" width="340" height="62" fill="#111A2C" stroke="#28344E" stroke-width="1.5"/>
+        <text x="58" y="210" fill="#F5F3EC" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="13">BANCO DE DADOS</text>
+        <text x="58" y="229" fill="#8B96A8" font-family="JetBrains Mono, monospace" font-size="10">PostgreSQL · Backups automáticos</text>
+
+        <!-- band 2: infra -->
+        <rect x="40" y="246" width="340" height="62" fill="#111A2C" stroke="#28344E" stroke-width="1.5"/>
+        <text x="58" y="272" fill="#F5F3EC" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="13">INFRAESTRUTURA CLOUD</text>
+        <text x="58" y="291" fill="#8B96A8" font-family="JetBrains Mono, monospace" font-size="10">AWS · Escalabilidade</text>
+
+        <!-- band 1: servidor (foundation) -->
+        <rect x="40" y="308" width="340" height="66" fill="#16213A" stroke="#FF6B35" stroke-width="1.5"/>
+        <text x="58" y="336" fill="#FF6B35" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="13">SERVIDOR &amp; DEPLOY</text>
+        <text x="58" y="355" fill="#8B96A8" font-family="JetBrains Mono, monospace" font-size="10">Monitoramento 24/7 · CI/CD</text>
+
+        <!-- hatching under foundation -->
+        <g stroke="#28344E" stroke-width="1">
+          <line x1="40" y1="382" x2="55" y2="374"/><line x1="65" y1="382" x2="80" y2="374"/>
+          <line x1="90" y1="382" x2="105" y2="374"/><line x1="115" y1="382" x2="130" y2="374"/>
+          <line x1="140" y1="382" x2="155" y2="374"/><line x1="165" y1="382" x2="180" y2="374"/>
+          <line x1="190" y1="382" x2="205" y2="374"/><line x1="215" y1="382" x2="230" y2="374"/>
+          <line x1="240" y1="382" x2="255" y2="374"/><line x1="265" y1="382" x2="280" y2="374"/>
+          <line x1="290" y1="382" x2="305" y2="374"/><line x1="315" y1="382" x2="330" y2="374"/>
+          <line x1="340" y1="382" x2="355" y2="374"/><line x1="365" y1="382" x2="380" y2="374"/>
+        </g>
+
+        <!-- measurement line left -->
+        <line x1="20" y1="60" x2="20" y2="374" stroke="#28344E" stroke-width="1"/>
+        <line x1="15" y1="60" x2="25" y2="60" stroke="#28344E" stroke-width="1"/>
+        <line x1="15" y1="374" x2="25" y2="374" stroke="#28344E" stroke-width="1"/>
+        <text x="10" y="222" fill="#8B96A8" font-family="JetBrains Mono, monospace" font-size="9" transform="rotate(-90 10 222)">PROJETO COMPLETO</text>
+
+        <!-- annotation leader -->
+        <line x1="380" y1="90" x2="440" y2="90" stroke="#4FA8D8" stroke-width="1"/>
+        <circle cx="440" cy="90" r="2.5" fill="#4FA8D8"/>
+        <text x="405" y="415" fill="#4FA8D8" font-family="JetBrains Mono, monospace" font-size="10">Tudo entregue pelo mesmo time</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROBLEMA ============ -->
+<section class="border-t border-line px-5 sm:px-8 py-20">
+  <div class="max-w-7xl mx-auto">
+    <div class="reveal max-w-2xl mb-14">
+      <p class="mono-label text-[11px] text-blueprint uppercase mb-3">O problema</p>
+      <h2 class="font-display font-semibold text-3xl sm:text-4xl text-paper">
+        Contratar times separados custa mais do que parece.
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-5">
+      <div class="reveal bp-corners p-6 border border-line bg-ink2">
+        <p class="mono-label text-blueprint text-xs mb-3">/ 01</p>
+        <h3 class="font-display font-semibold text-lg mb-2">Retrabalho e ruído</h3>
+        <p class="text-steel text-sm leading-relaxed">Um freelancer faz o design, outro programa, um terceiro cuida da hospedagem — e ninguém se comunica direito.</p>
+      </div>
+      <div class="reveal bp-corners p-6 border border-line bg-ink2">
+        <p class="mono-label text-blueprint text-xs mb-3">/ 02</p>
+        <h3 class="font-display font-semibold text-lg mb-2">Servidor que cai</h3>
+        <p class="text-steel text-sm leading-relaxed">Hospedagem genérica, sem monitoramento e sem backup — até que o site sai do ar no pior momento.</p>
+      </div>
+      <div class="reveal bp-corners p-6 border border-line bg-ink2">
+        <p class="mono-label text-blueprint text-xs mb-3">/ 03</p>
+        <h3 class="font-display font-semibold text-lg mb-2">Orçamento estourado</h3>
+        <p class="text-steel text-sm leading-relaxed">Cada peça do projeto é cobrada e negociada separadamente, sem visão do custo real do conjunto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVIÇOS ============ -->
+<section id="servicos" class="border-t border-line px-5 sm:px-8 py-20">
+  <div class="max-w-7xl mx-auto">
+    <div class="reveal max-w-2xl mb-14">
+      <p class="mono-label text-[11px] text-blueprint uppercase mb-3">Serviços</p>
+      <h2 class="font-display font-semibold text-3xl sm:text-4xl text-paper">O conjunto completo de plantas do seu projeto.</h2>
+      <p class="text-steel mt-4">Cada camada da sua presença digital, coberta por um único contrato.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <div class="reveal card-service p-7">
+        <p class="sheet-code text-blueprint text-xs mb-4">PL-01</p>
+        <h3 class="font-display font-semibold text-xl mb-2.5">Site &amp; Front-end</h3>
+        <p class="text-steel text-sm leading-relaxed">Design responsivo e feito sob medida — institucional, e-commerce ou sistema web.</p>
+      </div>
+
+      <div class="reveal card-service p-7">
+        <p class="sheet-code text-blueprint text-xs mb-4">PL-02</p>
+        <h3 class="font-display font-semibold text-xl mb-2.5">Back-end &amp; API</h3>
+        <p class="text-steel text-sm leading-relaxed">Regras de negócio, autenticação e integrações com pagamento, ERP e outros sistemas.</p>
+      </div>
+
+      <div class="reveal card-service p-7">
+        <p class="sheet-code text-blueprint text-xs mb-4">PL-03</p>
+        <h3 class="font-display font-semibold text-xl mb-2.5">Banco de dados</h3>
+        <p class="text-steel text-sm leading-relaxed">Modelagem, backups automáticos e replicação para os dados do seu negócio nunca se perderem.</p>
+      </div>
+
+      <div class="reveal card-service p-7">
+        <p class="sheet-code text-blueprint text-xs mb-4">PL-04</p>
+        <h3 class="font-display font-semibold text-xl mb-2.5">Infraestrutura cloud</h3>
+        <p class="text-steel text-sm leading-relaxed">Arquitetura em nuvem que escala com o seu tráfego, sem pagar por capacidade ociosa.</p>
+      </div>
+
+      <div class="reveal card-service p-7">
+        <p class="sheet-code text-blueprint text-xs mb-4">PL-05</p>
+        <h3 class="font-display font-semibold text-xl mb-2.5">Servidor &amp; deploy</h3>
+        <p class="text-steel text-sm leading-relaxed">Domínio e monitoramento 24/7 — o projeto vai ao ar e fica de pé.</p>
+      </div>
+
+      <div class="reveal card-service p-7">
+        <p class="sheet-code text-blueprint text-xs mb-4">PL-06</p>
+        <h3 class="font-display font-semibold text-xl mb-2.5">Manutenção &amp; suporte</h3>
+        <p class="text-steel text-sm leading-relaxed">Atualizações, correções e evolução contínua, com um time que já conhece o seu projeto.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESSO ============ -->
+<section id="processo" class="border-t border-line px-5 sm:px-8 py-20 bg-ink2/40">
+  <div class="max-w-7xl mx-auto">
+    <div class="reveal max-w-2xl mb-14">
+      <p class="mono-label text-[11px] text-blueprint uppercase mb-3">Processo</p>
+      <h2 class="font-display font-semibold text-3xl sm:text-4xl text-paper">Como construímos, do primeiro traço ao suporte.</h2>
+    </div>
+
+    <div class="grid md:grid-cols-5 gap-0 md:gap-4">
+      <div class="reveal relative pb-10 md:pb-0">
+        <p class="font-display font-semibold text-4xl text-line">01</p>
+        <h3 class="font-display font-semibold text-base mt-3 mb-2">Diagnóstico</h3>
+        <p class="text-steel text-sm leading-relaxed">Entendemos seu negócio, seu público e o que o projeto precisa resolver.</p>
+        <div class="hidden md:block absolute top-6 right-0 w-full h-px dash-line"></div>
+      </div>
+      <div class="reveal relative pb-10 md:pb-0">
+        <p class="font-display font-semibold text-4xl text-line">02</p>
+        <h3 class="font-display font-semibold text-base mt-3 mb-2">Arquitetura</h3>
+        <p class="text-steel text-sm leading-relaxed">Desenhamos a planta técnica: stack, banco de dados e infraestrutura ideais.</p>
+        <div class="hidden md:block absolute top-6 right-0 w-full h-px dash-line"></div>
+      </div>
+      <div class="reveal relative pb-10 md:pb-0">
+        <p class="font-display font-semibold text-4xl text-line">03</p>
+        <h3 class="font-display font-semibold text-base mt-3 mb-2">Desenvolvimento</h3>
+        <p class="text-steel text-sm leading-relaxed">Construção do site e dos sistemas, com checkpoints abertos para você acompanhar.</p>
+        <div class="hidden md:block absolute top-6 right-0 w-full h-px dash-line"></div>
+      </div>
+      <div class="reveal relative pb-10 md:pb-0">
+        <p class="font-display font-semibold text-4xl text-line">04</p>
+        <h3 class="font-display font-semibold text-base mt-3 mb-2">Deploy</h3>
+        <p class="text-steel text-sm leading-relaxed">Servidor, domínio, SSL e backups configurados — o projeto vai ao ar.</p>
+        <div class="hidden md:block absolute top-6 right-0 w-full h-px dash-line"></div>
+      </div>
+      <div class="reveal">
+        <p class="font-display font-semibold text-4xl text-signal">05</p>
+        <h3 class="font-display font-semibold text-base mt-3 mb-2">Suporte contínuo</h3>
+        <p class="text-steel text-sm leading-relaxed">Monitoramento, manutenção e evolução, com o mesmo time do início ao fim.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STACK ============ -->
+<section id="stack" class="border-t border-line px-5 sm:px-8 py-20">
+  <div class="max-w-7xl mx-auto">
+    <div class="reveal max-w-2xl mb-10">
+      <p class="mono-label text-[11px] text-blueprint uppercase mb-3">Materiais de construção</p>
+      <h2 class="font-display font-semibold text-3xl sm:text-4xl text-paper">Tecnologia que sustenta, não só impressiona.</h2>
+      <p class="text-steel mt-4">Tecnologias reais que alimentam o projeto — não a mais na moda.</p>
+    </div>
+
+    <div class="reveal flex flex-wrap gap-3">
+      <span class="chip px-4 py-2 text-xs">JavaScript</span>
+      <span class="chip px-4 py-2 text-xs">TypeScript</span>
+      <span class="chip px-4 py-2 text-xs">PostgreSQL</span>
+      <span class="chip px-4 py-2 text-xs">AWS</span>
+      <span class="chip px-4 py-2 text-xs">Cloudflare</span>
+      <span class="chip px-4 py-2 text-xs">CI / CD</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PLANOS ============ -->
+<section id="planos" class="border-t border-line px-5 sm:px-8 py-20 bg-ink2/40">
+  <div class="max-w-7xl mx-auto">
+    <div class="reveal max-w-2xl mb-14">
+      <p class="mono-label text-[11px] text-blueprint uppercase mb-3">Planos</p>
+      <h2 class="font-display font-semibold text-3xl sm:text-4xl text-paper">Um plano do tamanho do seu projeto.</h2>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-6">
+
+      <div class="reveal plan-card p-8 flex flex-col">
+        <h3 class="font-display font-semibold text-xl mb-1">Essencial</h3>
+        <p class="text-steel text-sm mb-6">Para quem precisa sair do papel.</p>
+        <p class="font-display font-semibold text-3xl mb-1">R$ 999</p>
+        <p class="mono-label text-[11px] text-steel uppercase mb-6">a partir de · pagamento único</p>
+        <ul class="space-y-3 text-sm text-steel flex-1">
+          <li class="flex gap-2"><span class="text-blueprint">—</span> Site institucional responsivo</li>
+          <li class="flex gap-2"><span class="text-blueprint">—</span> Banco de dados configurado</li>
+          <li class="flex gap-2"><span class="text-blueprint">—</span> Domínio + SSL + hospedagem</li>
+          <li class="flex gap-2"><span class="text-blueprint">—</span> Backups semanais</li>
+          <li class="flex gap-2"><span class="text-blueprint">—</span> 45 dias de suporte pós-entrega</li>
+        </ul>
+        <a href="#contato" class="btn-outline text-paper text-center font-display font-semibold px-5 py-3 mt-8">Solicitar orçamento</a>
+      </div>
+
+      <div class="reveal plan-featured p-8 flex flex-col relative">
+        <span class="absolute -top-3 left-8 bg-signal text-ink text-[10px] mono-label uppercase px-3 py-1">Mais contratado</span>
+        <h3 class="font-display font-semibold text-xl mb-1">Profissional</h3>
+        <p class="text-steel text-sm mb-6">Para negócios que operam online.</p>
+        <p class="font-display font-semibold text-3xl mb-1">R$ 2499</p>
+        <p class="mono-label text-[11px] text-steel uppercase mb-6">a partir de · projeto + infra</p>
+        <ul class="space-y-3 text-sm text-steel flex-1">
+          <li class="flex gap-2"><span class="text-signal">—</span> Site ou sistema web completo</li>
+          <li class="flex gap-2"><span class="text-signal">—</span> Back-end e API dedicados</li>
+          <li class="flex gap-2"><span class="text-signal">—</span> Banco de dados com réplica</li>
+          <li class="flex gap-2"><span class="text-signal">—</span> Infraestrutura em nuvem escalável</li>
+          <li class="flex gap-2"><span class="text-signal">—</span> Monitoramento 24/7 + CI/CD</li>
+          <li class="flex gap-2"><span class="text-signal">—</span> Suporte contínuo mensal</li>
+        </ul>
+        <a href="#contato" class="btn-signal text-ink text-center font-display font-semibold px-5 py-3 mt-8">Solicitar orçamento</a>
+      </div>
+
+      <div class="reveal plan-card p-8 flex flex-col">
+        <h3 class="font-display font-semibold text-xl mb-1">Enterprise</h3>
+        <p class="text-steel text-sm mb-6">Para operações de alta exigência.</p>
+        <p class="font-display font-semibold text-3xl mb-1">Sob consulta</p>
+        <p class="mono-label text-[11px] text-steel uppercase mb-6">arquitetura customizada</p>
+        <ul class="space-y-3 text-sm text-steel flex-1">
+          <li class="flex gap-2"><span class="text-blueprint">—</span> Múltiplos ambientes (dev/homolog/prod)</li>
+          <li class="flex gap-2"><span class="text-blueprint">—</span> Infraestrutura redundante multi-região</li>
+          <li class="flex gap-2"><span class="text-blueprint">—</span> SLA dedicado e time fixo</li>
+          <li class="flex gap-2"><span class="text-blueprint">—</span> Segurança e compliance avançados</li>
+          <li class="flex gap-2"><span class="text-blueprint">—</span> Consultoria técnica contínua</li>
+        </ul>
+        <a href="#contato" class="btn-outline text-paper text-center font-display font-semibold px-5 py-3 mt-8">Falar com time técnico</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEPOIMENTOS ============ -->
+<section class="border-t border-line px-5 sm:px-8 py-20">
+  <div class="max-w-7xl mx-auto">
+    <div class="reveal max-w-2xl mb-14">
+      <p class="mono-label text-[11px] text-blueprint uppercase mb-3">Quem já construiu com a gente</p>
+      <h2 class="font-display font-semibold text-3xl sm:text-4xl text-paper">Projetos que continuam de pé.</h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-5">
+      <div class="reveal bp-corners border border-line p-6 bg-ink2">
+        <p class="text-paper text-sm leading-relaxed mb-6">"Trocamos três fornecedores diferentes por um time só. O site nunca mais caiu e a gente finalmente entende a fatura."</p>
+        <p class="font-display font-semibold text-sm">Renata</p>
+        <p class="mono-label text-[10px] text-steel uppercase mt-1">E-commerce de moda</p>
+      </div>
+      <div class="reveal bp-corners border border-line p-6 bg-ink2">
+        <p class="text-paper text-sm leading-relaxed mb-6">"Migraram nosso sistema antigo sem tirar a operação do ar. O suporte responde de verdade, sem enrolação."</p>
+        <p class="font-display font-semibold text-sm">Diego</p>
+        <p class="mono-label text-[10px] text-steel uppercase mt-1">Clínica odontológica</p>
+      </div>
+      <div class="reveal bp-corners border border-line p-6 bg-ink2">
+        <p class="text-paper text-sm leading-relaxed mb-6">"A infraestrutura escalou sozinha numa campanha que triplicou nosso tráfego. Não senti nada, e isso é o ponto."</p>
+        <p class="font-display font-semibold text-sm">Camila</p>
+        <p class="mono-label text-[10px] text-steel uppercase mt-1">Marketplace regional</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" class="border-t border-line px-5 sm:px-8 py-20 bg-ink2/40">
+  <div class="max-w-4xl mx-auto">
+    <div class="reveal max-w-2xl mb-12">
+      <p class="mono-label text-[11px] text-blueprint uppercase mb-3">Perguntas frequentes</p>
+      <h2 class="font-display font-semibold text-3xl sm:text-4xl text-paper">Antes de fechar, vale esclarecer.</h2>
+    </div>
+
+    <div class="reveal divide-y divide-line border-t border-b border-line">
+
+      <details class="faq-item py-5">
+        <summary class="flex items-center justify-between gap-4">
+          <span class="font-display font-medium text-base sm:text-lg text-paper">Quanto tempo leva do início até o site no ar?</span>
+          <span class="chevron text-blueprint text-xl leading-none transition-transform shrink-0">+</span>
+        </summary>
+        <p class="text-steel text-sm leading-relaxed mt-4 max-w-2xl">Depende do escopo. Um site institucional fica pronto em 3 a 5 semanas. Projetos com sistema, banco de dados e infraestrutura dedicada costumam levar de 6 a 10 semanas, com entregas parciais no caminho.</p>
+      </details>
+
+      <details class="faq-item py-5">
+        <summary class="flex items-center justify-between gap-4">
+          <span class="font-display font-medium text-base sm:text-lg text-paper">Vocês migram um site ou sistema que já existe?</span>
+          <span class="chevron text-blueprint text-xl leading-none transition-transform shrink-0">+</span>
+        </summary>
+        <p class="text-steel text-sm leading-relaxed mt-4 max-w-2xl">Sim. Fazemos o diagnóstico do que já existe, migramos os dados com backup de segurança e trocamos a infraestrutura sem deixar a operação fora do ar.</p>
+      </details>
+
+      <details class="faq-item py-5">
+        <summary class="flex items-center justify-between gap-4">
+          <span class="font-display font-medium text-base sm:text-lg text-paper">A manutenção depois da entrega tem custo fixo?</span>
+          <span class="chevron text-blueprint text-xl leading-none transition-transform shrink-0">+</span>
+        </summary>
+        <p class="text-steel text-sm leading-relaxed mt-4 max-w-2xl">Sim, um valor mensal previsível que cobre monitoramento do servidor, backups, atualizações de segurança e um pacote de horas de suporte. Nada de surpresa na fatura.</p>
+      </details>
+
+      <details class="faq-item py-5">
+        <summary class="flex items-center justify-between gap-4">
+          <span class="font-display font-medium text-base sm:text-lg text-paper">Quem escolhe a tecnologia usada no projeto?</span>
+          <span class="chevron text-blueprint text-xl leading-none transition-transform shrink-0">+</span>
+        </summary>
+        <p class="text-steel text-sm leading-relaxed mt-4 max-w-2xl">Nós recomendamos com base na necessidade real — tráfego esperado, orçamento e prazo — e explicamos o porquê. Você aprova antes da arquitetura seguir para a construção.</p>
+      </details>
+
+      <details class="faq-item py-5">
+        <summary class="flex items-center justify-between gap-4">
+          <span class="font-display font-medium text-base sm:text-lg text-paper">O que acontece se o site sair do ar?</span>
+          <span class="chevron text-blueprint text-xl leading-none transition-transform shrink-0">+</span>
+        </summary>
+        <p class="text-steel text-sm leading-relaxed mt-4 max-w-2xl">O monitoramento avisa nosso time antes da maioria dos clientes perceber. Nos planos Profissional e Enterprise, a resposta a incidentes críticos começa em até 2 horas, a qualquer dia.</p>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA FINAL / CONTATO ============ -->
+<section id="contato" class="border-t border-line px-5 sm:px-8 py-20">
+  <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-14">
+
+    <div class="reveal">
+      <p class="mono-label text-[11px] text-blueprint uppercase mb-3">Vamos construir</p>
+      <h2 class="font-display font-semibold text-3xl sm:text-4xl text-paper mb-5">
+        Pronto para colocar a fundação certa embaixo do seu negócio?
+      </h2>
+      <p class="text-steel text-base leading-relaxed mb-8 max-w-md">
+        Conta pra gente o que você precisa. Em até 1 dia útil você recebe um retorno com escopo inicial e faixa de investimento.
+      </p>
+
+      <div class="space-y-4 text-sm">
+        <div class="flex items-center gap-3">
+          <span class="w-9 h-9 flex items-center justify-center border border-line text-blueprint">@</span>
+          <span class="text-steel">contato@bynova.com.br</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="w-9 h-9 flex items-center justify-center border border-line text-blueprint">#</span>
+          <span class="text-steel">+55 (62) 99999-9999 — WhatsApp</span>
+        </div>
+      </div>
+    </div>
+
+    <form id="contactForm" class="reveal bp-corners border border-line p-6 sm:p-8 bg-ink2 space-y-5">
+      <div>
+        <label class="mono-label text-[11px] text-steel uppercase block mb-2">Nome</label>
+        <input required type="text" placeholder="Seu nome" class="w-full bg-ink border border-line px-4 py-3 text-sm text-paper placeholder-steel/60">
+      </div>
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div>
+          <label class="mono-label text-[11px] text-steel uppercase block mb-2">E-mail</label>
+          <input required type="email" placeholder="voce@empresa.com" class="w-full bg-ink border border-line px-4 py-3 text-sm text-paper placeholder-steel/60">
+        </div>
+        <div>
+          <label class="mono-label text-[11px] text-steel uppercase block mb-2">WhatsApp</label>
+          <input type="tel" placeholder="(00) 00000-0000" class="w-full bg-ink border border-line px-4 py-3 text-sm text-paper placeholder-steel/60">
+        </div>
+      </div>
+      <div>
+        <label class="mono-label text-[11px] text-steel uppercase block mb-2">Dúvida</label>
+        <textarea rows="4" placeholder="Conte um pouco do que você precisa: site, sistema, migração..." class="w-full bg-ink border border-line px-4 py-3 text-sm text-paper placeholder-steel/60"></textarea>
+      </div>
+      <button type="submit" class="btn-signal text-ink font-display font-semibold w-full py-3.5">
+        Enviar solicitação
+      </button>
+      <p id="formSuccess" class="hidden text-blueprint text-sm mono-label">✓ Recebemos sua mensagem. Retornamos em breve.</p>
+    </form>
+
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t border-line px-5 sm:px-8 py-12">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+    <div>
+      <div class="flex items-center gap-2.5 mb-3">
+        <svg width="22" height="22" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="17" width="24" height="7" stroke="#4FA8D8" stroke-width="1.5"/>
+          <rect x="4" y="11" width="18" height="6" stroke="#4FA8D8" stroke-width="1.5"/>
+          <rect x="7" y="1" width="12" height="10" stroke="#FF6B35" stroke-width="1.5"/>
+        </svg>
+        <span class="font-display font-semibold text-paper">BYNOVA<span class="text-blueprint">.</span></span>
+      </div>
+      <p class="text-steel text-sm max-w-xs">Site, banco de dados, infraestrutura e servidor — construídos e mantidos como um projeto só.</p>
+    </div>
+
+    <div class="flex flex-wrap gap-x-10 gap-y-4 mono-label text-xs uppercase text-steel">
+      <a href="#servicos" class="hover:text-blueprint">Serviços</a>
+      <a href="#processo" class="hover:text-blueprint">Processo</a>
+      <a href="#planos" class="hover:text-blueprint">Planos</a>
+      <a href="#faq" class="hover:text-blueprint">FAQ</a>
+      <a href="#contato" class="hover:text-blueprint">Contato</a>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto mt-10 pt-6 border-t border-line flex flex-col sm:flex-row justify-between gap-3 text-[11px] mono-label text-steel uppercase">
+    <span>© 2026 Bynova Soluções em Tecnologia. Todos os direitos reservados.</span>
+    <span>CNPJ 99.999.999/0001-99 · Goiânia, GO</span>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+  document.querySelectorAll('#mobileMenu a').forEach(a => {
+    a.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+
+  // Counter animation
+  const counters = document.querySelectorAll('[data-count]');
+  const counterIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.getAttribute('data-count'), 10);
+        let current = 0;
+        const step = Math.max(1, Math.ceil(target / 40));
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= target) {
+            current = target;
+            clearInterval(timer);
+          }
+          el.textContent = current;
+        }, 30);
+        counterIO.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(el => counterIO.observe(el));
+
+  // Fake form submit
+  const form = document.getElementById('contactForm');
+  const success = document.getElementById('formSuccess');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    success.classList.remove('hidden');
+    form.querySelectorAll('input, textarea').forEach(el => el.value = '');
+    setTimeout(() => success.classList.add('hidden'), 6000);
+  });
+</script>
+
+</body>
+</html>
